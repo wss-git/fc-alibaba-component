@@ -20,6 +20,30 @@ class FcComponent extends Component {
     const fcMetrics = await this.load('fc-metrics-alibaba-component', 'Component');
     await fcMetrics.metrics(inputs);
   }
+
+  async deploy (inputs) {
+
+  }
+
+  async publish (inputs) {
+
+  }
+
+  async unpublish (inputs) {
+
+  }
+
+  async invoke (inputs) {
+
+  }
+
+  async install (inputs) {
+
+  }
+
+  async build (inputs) {
+
+  }
 }
 
 module.exports = FcComponent;
