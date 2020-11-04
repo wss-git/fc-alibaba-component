@@ -10,6 +10,11 @@ class FcComponent extends Component {
     const fcLogs = await this.load('fc-logs-alibaba-component', 'Component');
     await fcLogs.logs(inputs);
   }
+
+  async sync (inputs) {
+    const fcLogs = await this.load('fc-sync-alibaba-component', 'Component');
+    await fcLogs.sync(inputs);
+  }
   
   async metrics (inputs) {
     const fcMetrics = await this.load('fc-metrics-alibaba-component', 'Component');
