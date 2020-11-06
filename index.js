@@ -22,15 +22,23 @@ class FcComponent extends Component {
   }
 
   async deploy (inputs) {
+    const fcDeploy = await this.load('fc-deploy-alibaba-component', 'Component');
+    return await fcDeploy.deploy(inputs);
+  }
 
+  async remove (inputs) {
+    const fcRemove = await this.load('fc-remove-alibaba-component', 'Component');
+    return await fcRemove.remove(inputs);
   }
 
   async publish (inputs) {
-
+    const fcQualifier = await this.load('fc-qualifier-alibaba-component', 'Component');
+    return await fcQualifier.publish(inputs);
   }
 
   async unpublish (inputs) {
-
+    const fcQualifier = await this.load('fc-qualifier-alibaba-component', 'Component');
+    return await fcQualifier.unpublish(inputs);
   }
 
   async invoke (inputs) {
