@@ -1,7 +1,13 @@
 
 class ServerlessError {
-  constructor({ code, message }) {
-    throw new Error({ code, message });
+  constructor(e) {
+    if (e instanceof Error) {
+      throw e;
+    }
+    const { code, message } = e;
+    const ex = new Error(message);
+    ex.name = code;
+    throw new Error(ex);
   }
 
 }

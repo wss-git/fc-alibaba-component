@@ -1,14 +1,47 @@
 const { Component } = require('@serverless-devs/s-core');
-const ServerlessError = require('./utils/error');
+const getHelp = require('./utils/help');
+const Logger = require('./utils/logger');
+const check = require('./utils/check');
+const logsUtils = require('./utils/logs-utils');
 
 class FcComponent extends Component {
   constructor() {
     super();
+    this.logger = new Logger();
   }
 
   async logs (inputs) {
+    this.help(inputs, getHelp(inputs).logs);
+
+    const {
+      Properties: properties = {},
+      Credentials: credentials = {}
+    } = inputs;
+
+    const {
+      Region: region,
+      Service: serviceProp = {},
+      Function: functionProp = {}
+    } = properties;
+    const serviceName = serviceProp.Name;
+    const logConfig = serviceProp.Log;
+    const functionName = functionProp.Name;
+
+    check.checkLogsCommands(region, serviceName, functionName, logConfig);
+    const { projectName, logStoreName } = logsUtils.processLogAutoIfNeed(logConfig, credentials.AccountID, region);
     const fcLogs = await this.load('fc-logs-alibaba-component', 'Component');
-    await fcLogs.logs(inputs);
+    await fcLogs.logs({
+      ...inputs,
+      Properties: {
+        Region: region,
+        LogConfig: {
+          ProjectName: projectName,
+          LogStoreName: logStoreName,
+        },
+        Topic: serviceName,
+        Query: functionName
+      }
+    });
   }
 
   async sync (inputs) {
